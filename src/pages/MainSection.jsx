@@ -1,10 +1,10 @@
 import PodcastDetails from "./PodcastDetails";
 import PodcastSearch from "./PodcastSearch";
 
-function MainSection() {
+function MainSection({ podcasts = [] }) {
   return (
     <>
-      <PodcastSearch />
+      <PodcastSearch podcasts={podcasts} />
       <PodcastDetails />
     </>
   );

@@ -1,14 +1,29 @@
 import { useState } from "react";
 import { TextField } from "@mui/material";
+import axios from "axios";
+
 import PodcastPlayer from "./components/PodcastPlayer";
 import MainSection from "./pages/MainSection";
 
 function App() {
   const [searchText, setSearchText] = useState("");
+  const [podcasts, setPodcasts] = useState([]);
+
+  const getPodcasts = async (term) => {
+    const apiUrl = `https://itunes.apple.com/search?term=${term}&entity=podcast&limit=10`;
+    try {
+      const response = await axios.get(apiUrl);
+      console.log("data: ", response);
+      setPodcasts(response.data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleKeyPress = (event) => {
     if (event.charCode === 13) {
       console.log("Search Submit:", searchText);
+      getPodcasts(searchText);
     }
   };
 
@@ -28,7 +43,7 @@ function App() {
             fullWidth
           />
         </div>
-        <MainSection />
+        <MainSection podcasts={podcasts} />
         <PodcastPlayer />
       </div>
     </>

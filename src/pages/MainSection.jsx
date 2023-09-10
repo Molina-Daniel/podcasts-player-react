@@ -1,11 +1,15 @@
+import { Routes, Route } from "react-router-dom";
+
 import PodcastDetails from "./PodcastDetails";
 import PodcastSearch from "./PodcastSearch";
 
 function MainSection({ podcasts = [] }) {
   return (
     <>
-      <PodcastSearch podcasts={podcasts} />
-      <PodcastDetails />
+      <Routes>
+        <Route path="/" element={<PodcastSearch podcasts={podcasts} />}></Route>
+        <Route path="/podcast" element={<PodcastDetails />} />
+      </Routes>
     </>
   );
 }

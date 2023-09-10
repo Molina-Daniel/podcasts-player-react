@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { TextField } from "@mui/material";
 import axios from "axios";
+import { BrowserRouter } from "react-router-dom";
 
 import PodcastPlayer from "./components/PodcastPlayer";
 import MainSection from "./pages/MainSection";
@@ -30,21 +31,23 @@ function App() {
   return (
     <>
       <div className="w-10/12 max-w-4xl text-center m-auto relative">
-        <div className="px-5 py-7">
-          <TextField
-            value={searchText}
-            placeholder="Find a podcast"
-            onChange={(e) => {
-              setSearchText(e.target.value);
-            }}
-            onKeyPress={handleKeyPress}
-            id="search-input"
-            variant="outlined"
-            fullWidth
-          />
-        </div>
-        <MainSection podcasts={podcasts} />
-        <PodcastPlayer />
+        <BrowserRouter>
+          <div className="px-5 py-7">
+            <TextField
+              value={searchText}
+              placeholder="Find a podcast"
+              onChange={(e) => {
+                setSearchText(e.target.value);
+              }}
+              onKeyPress={handleKeyPress}
+              id="search-input"
+              variant="outlined"
+              fullWidth
+            />
+          </div>
+          <MainSection podcasts={podcasts} />
+          <PodcastPlayer />
+        </BrowserRouter>
       </div>
     </>
   );

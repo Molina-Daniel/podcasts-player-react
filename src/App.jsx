@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { TextField } from "@mui/material";
 import axios from "axios";
 import { BrowserRouter } from "react-router-dom";
 
 import PodcastPlayer from "./components/PodcastPlayer";
 import MainSection from "./pages/MainSection";
+import SearchBar from "./components/SearchBar";
 
 function App() {
-  const [searchText, setSearchText] = useState("");
   const [podcasts, setPodcasts] = useState([]);
 
   const getPodcasts = async (term) => {
@@ -21,30 +20,11 @@ function App() {
     }
   };
 
-  const handleKeyPress = (event) => {
-    if (event.charCode === 13) {
-      console.log("Search Submit:", searchText);
-      getPodcasts(searchText);
-    }
-  };
-
   return (
     <>
       <div className="w-10/12 max-w-4xl text-center m-auto relative">
         <BrowserRouter>
-          <div className="px-5 py-7">
-            <TextField
-              value={searchText}
-              placeholder="Find a podcast"
-              onChange={(e) => {
-                setSearchText(e.target.value);
-              }}
-              onKeyPress={handleKeyPress}
-              id="search-input"
-              variant="outlined"
-              fullWidth
-            />
-          </div>
+          <SearchBar getPodcasts={getPodcasts} />
           <MainSection podcasts={podcasts} />
           <PodcastPlayer />
         </BrowserRouter>

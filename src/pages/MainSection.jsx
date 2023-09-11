@@ -8,7 +8,7 @@ function MainSection({ podcasts = [] }) {
     <>
       <Routes>
         <Route path="/" element={<PodcastSearch podcasts={podcasts} />}></Route>
-        <Route path="/podcast" element={<PodcastDetails />} />
+        <Route path="/podcast/:collectionId" element={<PodcastDetails />} />
       </Routes>
     </>
   );

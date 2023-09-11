@@ -1,4 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
 function PodcastSearch({ podcasts = [] }) {
+  const navigate = useNavigate();
+
+  const showSelectedPodcast = (collectionId) => {
+    console.log("collectionId: ", collectionId);
+    navigate(`podcast/${collectionId}`);
+  };
+
   return (
     <>
       <h1>Podcast Search</h1>
@@ -8,6 +17,7 @@ function PodcastSearch({ podcasts = [] }) {
             <li
               key={podcast.trackId}
               className="flex justify-between gap-x-6 py-5"
+              onClick={() => showSelectedPodcast(podcast.collectionId)}
             >
               <div className="flex min-w-0 gap-x-4">
                 <img

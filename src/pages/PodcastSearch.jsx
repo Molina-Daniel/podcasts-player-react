@@ -1,4 +1,20 @@
 import { useNavigate } from "react-router-dom";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+  Grid,
+} from "@mui/material";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+
+const commonStyles = {
+  color: "secondary.main",
+};
 
 function PodcastSearch({ podcasts = [] }) {
   const navigate = useNavigate();
@@ -10,45 +26,68 @@ function PodcastSearch({ podcasts = [] }) {
 
   return (
     <>
-      <h1>Podcast Search</h1>
-      <div>
-        <ul role="list" className="divide-y divide-gray-100">
-          {podcasts.map((podcast) => (
-            <li
-              key={podcast.trackId}
-              className="flex justify-between gap-x-6 py-5"
-              onClick={() => showSelectedPodcast(podcast.collectionId)}
-            >
-              <div className="flex min-w-0 gap-x-4">
-                <img
-                  className="h-12 w-12 flex-none rounded-full bg-gray-50"
-                  src={podcast.imageUrl}
-                  alt=""
-                />
-                <div className="min-w-0 flex-auto">
-                  <p className="text-sm font-semibold leading-6 text-gray-900">
-                    {podcast.collectionName}
-                  </p>
-                  <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                    {podcast.artistName}
-                  </p>
-                </div>
-              </div>
-              <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                <p className="text-sm leading-6 text-gray-900">
-                  {podcast.primaryGenreName}
-                </p>
-                <p className="mt-1 text-xs leading-5 text-gray-500">
-                  Last seen{" "}
-                  <time dateTime={podcast.releaseDate}>
+      {podcasts.length > 0 && (
+        <TableContainer component={Paper} sx={{ boxShadow: 0 }}>
+          <Table aria-label="podcasts list">
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ ...commonStyles }}>#</TableCell>
+                <TableCell sx={{ ...commonStyles }}>Name</TableCell>
+                <TableCell sx={{ ...commonStyles }}>Description</TableCell>
+                <TableCell sx={{ ...commonStyles }}>Released</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {podcasts.map((podcast) => (
+                <TableRow
+                  key={podcast.trackId}
+                  onClick={() => showSelectedPodcast(podcast.collectionId)}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    <IconButton
+                      type="button"
+                      sx={{
+                        p: "10px",
+                        color: "primary.main",
+                      }}
+                      aria-label="play podcast"
+                    >
+                      <PlayArrowIcon />
+                    </IconButton>
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <img
+                      className="h-12 w-12 rounded-lg mr-3"
+                      src={podcast.artworkUrl100}
+                      alt="podcast thumbnail"
+                    />
+                    <Grid container>
+                      <Grid item xs={12} sx={{ color: "primary.main" }}>
+                        {podcast.collectionName}
+                      </Grid>
+                      <Grid item xs={12} sx={{ ...commonStyles }}>
+                        {podcast.artistName}
+                      </Grid>
+                    </Grid>
+                  </TableCell>
+                  <TableCell sx={{ ...commonStyles }}>
+                    {podcast.trackCount}
+                  </TableCell>
+                  <TableCell sx={{ ...commonStyles }}>
                     {podcast.releaseDate}
-                  </time>
-                </p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </>
   );
 }

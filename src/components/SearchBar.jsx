@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { IconButton, InputBase, Paper } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 function SearchBar({ getPodcasts }) {
   const [searchText, setSearchText] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleKeyPress = (event) => {
     if (event.charCode === 13) {
@@ -27,6 +29,22 @@ function SearchBar({ getPodcasts }) {
   return (
     <>
       <div className="px-5 py-7 flex">
+        {location.pathname != "/" && (
+          <IconButton
+            type="button"
+            sx={{
+              p: "10px",
+              color: "primary.main",
+              bgcolor: "#1A1A1A",
+              borderRadius: "15px",
+              mr: "10px",
+            }}
+            aria-label="back arrow"
+            onClick={() => navigate(-1)}
+          >
+            <ArrowBackIosNewIcon />
+          </IconButton>
+        )}
         <Paper
           component="form"
           sx={{

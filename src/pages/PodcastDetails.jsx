@@ -1,6 +1,23 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+  Grid,
+} from "@mui/material";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+
+const commonStyles = {
+  color: "secondary.main",
+};
 
 function PodcastDetails() {
   const { collectionId } = useParams();
@@ -33,53 +50,72 @@ function PodcastDetails() {
 
   return (
     <>
-      <h1>Podcast Details</h1>
       {podcastData ? (
-        <div className="bg-slate-700">
-          <img
-            src={podcastInfo.artworkUrl600}
-            className="w-2/6 mx-auto rounded-2xl"
-            alt={podcastInfo.artworkUrl600}
-          />
-          <h1 className="text-center text-white text-5xl pt-5 font-semibold">
-            {podcastInfo.collectionName}
-          </h1>
-          <ul role="list" className="divide-y divide-gray-100">
-            {episodesList.map((episode) => (
-              <li
-                key={episode.trackId}
-                className="flex justify-between gap-x-6 py-5"
-              >
-                <div className="flex min-w-0 gap-x-4">
-                  <img
-                    className="h-12 w-12 flex-none rounded-full bg-gray-50"
-                    src={episode.artworkUrl160}
-                    alt=""
-                  />
-                  <div className="min-w-0 flex-auto">
-                    <p className="text-sm font-semibold leading-6 text-gray-900">
-                      {episode.trackName}
-                    </p>
-                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                      {podcastInfo.artistName}
-                    </p>
-                  </div>
-                </div>
-                <div className="hidden shrink sm:flex sm:flex-col sm:items-end">
-                  <p className="text-sm leading-6 text-gray-900">
-                    {episode.shortDescription}
-                  </p>
-                </div>
-                <p className="mt-1 text-xs leading-5 text-gray-500">
-                  Last seen{" "}
-                  <time dateTime={episode.releaseDate}>
+        <TableContainer component={Paper} sx={{ boxShadow: 0 }}>
+          <Table aria-label="podcasts list">
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ ...commonStyles }}>#</TableCell>
+                <TableCell sx={{ ...commonStyles }}>Title</TableCell>
+                <TableCell sx={{ ...commonStyles }}>Topic</TableCell>
+                <TableCell sx={{ ...commonStyles }}>Released</TableCell>
+                <TableCell sx={{ ...commonStyles }}>
+                  <AccessTimeIcon />
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {episodesList.map((episode) => (
+                <TableRow
+                  key={episode.trackId}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    <IconButton
+                      type="button"
+                      sx={{
+                        p: "10px",
+                        color: "primary.main",
+                      }}
+                      aria-label="play podcast"
+                    >
+                      <PlayArrowIcon />
+                    </IconButton>
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <img
+                      className="h-12 w-12 rounded-lg mr-3"
+                      src={episode.artworkUrl160}
+                      alt="episode thumbnail"
+                    />
+                    <Grid container>
+                      <Grid item xs={12} sx={{ color: "primary.main" }}>
+                        {episode.trackName}
+                      </Grid>
+                      <Grid item xs={12} sx={{ ...commonStyles }}>
+                        {podcastInfo.artistName}
+                      </Grid>
+                    </Grid>
+                  </TableCell>
+                  <TableCell sx={{ ...commonStyles }}>
+                    {episode.trackCount}
+                  </TableCell>
+                  <TableCell sx={{ ...commonStyles }}>
                     {episode.releaseDate}
-                  </time>
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
+                  </TableCell>
+                  <TableCell sx={{ ...commonStyles }}>
+                    {episode.trackTimeMillis || "-"}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       ) : (
         <h1>No Data</h1>
       )}

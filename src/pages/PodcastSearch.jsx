@@ -27,7 +27,7 @@ function PodcastSearch({ podcasts = [] }) {
   return (
     <>
       {podcasts.length > 0 && (
-        <TableContainer component={Paper} sx={{ boxShadow: 0 }}>
+        <TableContainer component={Paper}>
           <Table aria-label="podcasts list">
             <TableHead>
               <TableRow>

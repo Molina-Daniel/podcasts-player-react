@@ -13,7 +13,7 @@ const theme = createTheme({
     MuiTableCell: {
       styleOverrides: {
         root: {
-          borderBottom: "none",
+          borderBottom: "1px solid rgba(255, 255, 255, 0.03);",
         },
       },
     },

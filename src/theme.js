@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material/styles";
+import "@fontsource/quicksand";
 
 // A custom theme for this app
 const theme = createTheme({

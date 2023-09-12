@@ -20,12 +20,26 @@ function App() {
     }
   };
 
+  const getPodcastDetails = async (collectionId) => {
+    const apiUrl = `https://itunes.apple.com/lookup?id=${collectionId}&media=podcast&entity=podcastEpisode&limit=10`;
+    try {
+      const response = await axios.get(apiUrl);
+      console.log("PodcastDetails fetch: ", response);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="w-10/12 max-w-4xl text-center m-auto relative">
         <BrowserRouter>
           <SearchBar getPodcasts={getPodcasts} />
-          <MainSection podcasts={podcasts} />
+          <MainSection
+            podcasts={podcasts}
+            getPodcastDetails={getPodcastDetails}
+          />
           <PodcastPlayer />
         </BrowserRouter>
       </div>

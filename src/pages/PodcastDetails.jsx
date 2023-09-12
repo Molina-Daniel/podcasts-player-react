@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import {
   Table,
   TableBody,
@@ -22,21 +21,16 @@ const commonStyles = {
   color: "secondary.main",
 };
 
-function PodcastDetails() {
+function PodcastDetails({ getPodcastDetails }) {
   const { collectionId } = useParams();
   const [podcastData, setPodcastData] = useState();
-
-  const getPodcastData = async (collectionId) => {
-    const apiUrl = `https://itunes.apple.com/lookup?id=${collectionId}&media=podcast&entity=podcastEpisode&limit=10`;
-    const response = await axios.get(apiUrl);
-    console.log("PodcastDetails fetch: ", response);
-    return response.data;
-  };
 
   useEffect(() => {
     console.log(`/podcast/${collectionId}`);
     const fetchPodcastData = async () => {
-      getPodcastData(collectionId).then((data) => setPodcastData(data.results));
+      getPodcastDetails(collectionId).then((data) =>
+        setPodcastData(data.results)
+      );
     };
     fetchPodcastData();
   }, [collectionId]);

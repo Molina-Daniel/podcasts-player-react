@@ -2,18 +2,19 @@ import { useState } from "react";
 import axios from "axios";
 import { BrowserRouter } from "react-router-dom";
 
-import PodcastPlayer from "./components/PodcastPlayer";
 import MainSection from "./pages/MainSection";
 import SearchBar from "./components/SearchBar";
+import AudioPlayer from "./components/AudioPlayer/AudioPlayer";
 
 function App() {
   const [podcasts, setPodcasts] = useState([]);
+  const [episodes, setEpisodes] = useState([]);
 
   const getPodcasts = async (term) => {
     const apiUrl = `https://itunes.apple.com/search?term=${term}&entity=podcast&limit=10`;
     try {
       const response = await axios.get(apiUrl);
-      console.log("data: ", response);
+      console.log("Poscasts data fetch: ", response);
       setPodcasts(response.data);
     } catch (error) {
       console.log(error);
@@ -25,6 +26,11 @@ function App() {
     try {
       const response = await axios.get(apiUrl);
       console.log("PodcastDetails fetch: ", response);
+      const podcastEpisodes = response.data.results.slice(
+        1,
+        response.data.results.length
+      );
+      setEpisodes(podcastEpisodes);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -40,7 +46,7 @@ function App() {
             podcasts={podcasts}
             getPodcastDetails={getPodcastDetails}
           />
-          <PodcastPlayer />
+          <AudioPlayer episodes={episodes} />
         </BrowserRouter>
       </div>
     </>

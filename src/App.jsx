@@ -14,7 +14,7 @@ function App() {
     try {
       const response = await axios.get(apiUrl);
       console.log("data: ", response);
-      setPodcasts(response.data.results);
+      setPodcasts(response.data);
     } catch (error) {
       console.log(error);
     }

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Table,
@@ -9,8 +10,11 @@ import {
   Paper,
   IconButton,
   Grid,
+  Typography,
 } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import DateFormat from "../components/DateFormat";
+import { useEffect } from "react";
 
 const commonStyles = {
   color: "secondary.main",
@@ -18,15 +22,22 @@ const commonStyles = {
 
 function PodcastSearch({ podcasts = [] }) {
   const navigate = useNavigate();
+  const [noPodcastsFound, setNoPodcastsFound] = useState(false);
 
   const showSelectedPodcast = (collectionId) => {
     console.log("collectionId: ", collectionId);
     navigate(`podcast/${collectionId}`);
   };
 
+  useEffect(() => {
+    podcasts?.resultCount === 0
+      ? setNoPodcastsFound(true)
+      : setNoPodcastsFound(false);
+  }, [podcasts]);
+
   return (
     <>
-      {podcasts.length > 0 && (
+      {podcasts?.results?.length > 0 && (
         <TableContainer component={Paper}>
           <Table aria-label="podcasts list">
             <TableHead>
@@ -38,7 +49,7 @@ function PodcastSearch({ podcasts = [] }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {podcasts.map((podcast) => (
+              {podcasts?.results?.map((podcast) => (
                 <TableRow
                   key={podcast.trackId}
                   onClick={() => showSelectedPodcast(podcast.collectionId)}
@@ -79,14 +90,23 @@ function PodcastSearch({ podcasts = [] }) {
                   <TableCell sx={{ ...commonStyles }}>
                     {podcast.trackCount}
                   </TableCell>
-                  <TableCell sx={{ ...commonStyles }}>
-                    {podcast.releaseDate}
+                  <TableCell sx={{ ...commonStyles, minWidth: "110px" }}>
+                    <DateFormat date={podcast.releaseDate} />
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+      )}
+      {noPodcastsFound && (
+        <Typography
+          component="h1"
+          variant="h4"
+          sx={{ color: "primary.main", fontWeight: "bold", my: "1rem" }}
+        >
+          Sorry, no podcast found
+        </Typography>
       )}
     </>
   );

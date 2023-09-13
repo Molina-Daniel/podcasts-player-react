@@ -21,14 +21,13 @@ const commonStyles = {
   color: "secondary.main",
 };
 
-function PodcastDetails({ getPodcastDetails }) {
+function PodcastDetails({ getPodcastEpisodes, playPodcastIndex }) {
   const { collectionId } = useParams();
   const [podcastData, setPodcastData] = useState();
 
   useEffect(() => {
-    console.log(`/podcast/${collectionId}`);
     const fetchPodcastData = async () => {
-      getPodcastDetails(collectionId).then((data) =>
+      getPodcastEpisodes(collectionId).then((data) =>
         setPodcastData(data.results)
       );
     };
@@ -38,11 +37,8 @@ function PodcastDetails({ getPodcastDetails }) {
   let podcastInfo, episodesList;
 
   if (podcastData) {
-    console.log("podcastData: ", podcastData);
     podcastInfo = podcastData[0];
     episodesList = podcastData.slice(1, podcastData.length);
-    console.log("podcastInfo: ", podcastInfo);
-    console.log("podcastList: ", episodesList);
   }
 
   return (
@@ -75,7 +71,7 @@ function PodcastDetails({ getPodcastDetails }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {episodesList.map((episode) => (
+                {episodesList.map((episode, index) => (
                   <TableRow
                     key={episode.trackId}
                     sx={{
@@ -85,6 +81,7 @@ function PodcastDetails({ getPodcastDetails }) {
                     <TableCell component="th" scope="row">
                       <IconButton
                         type="button"
+                        onClick={() => playPodcastIndex(index)}
                         sx={{
                           p: "10px",
                           color: "primary.main",

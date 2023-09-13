@@ -18,6 +18,16 @@ const theme = createTheme({
         },
       },
     },
+    MuiButtonGroup: {
+      styleOverrides: {
+        grouped: {
+          "&:not(:last-of-type)": {
+            borderRadius: "50%",
+            border: "none",
+          },
+        },
+      },
+    },
   },
   palette: {
     primary: {

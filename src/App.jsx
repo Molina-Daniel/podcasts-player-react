@@ -9,23 +9,23 @@ import AudioPlayer from "./components/AudioPlayer/AudioPlayer";
 function App() {
   const [podcasts, setPodcasts] = useState([]);
   const [episodes, setEpisodes] = useState([]);
+  const [index, setIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const getPodcasts = async (term) => {
     const apiUrl = `https://itunes.apple.com/search?term=${term}&entity=podcast&limit=10`;
     try {
       const response = await axios.get(apiUrl);
-      console.log("Poscasts data fetch: ", response);
       setPodcasts(response.data);
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching podcasts: ", error);
     }
   };
 
-  const getPodcastDetails = async (collectionId) => {
+  const getPodcastEpisodes = async (collectionId) => {
     const apiUrl = `https://itunes.apple.com/lookup?id=${collectionId}&media=podcast&entity=podcastEpisode&limit=10`;
     try {
       const response = await axios.get(apiUrl);
-      console.log("PodcastDetails fetch: ", response);
       const podcastEpisodes = response.data.results.slice(
         1,
         response.data.results.length
@@ -33,8 +33,19 @@ function App() {
       setEpisodes(podcastEpisodes);
       return response.data;
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching podcast episodes: ", error);
     }
+  };
+
+  const playPodcastIndex = (index) => {
+    setIndex(index);
+    if (!isPlaying) {
+      togglePlayPause();
+    }
+  };
+
+  const togglePlayPause = () => {
+    setIsPlaying((prev) => !prev);
   };
 
   return (
@@ -44,9 +55,10 @@ function App() {
           <SearchBar getPodcasts={getPodcasts} />
           <MainSection
             podcasts={podcasts}
-            getPodcastDetails={getPodcastDetails}
+            getPodcastEpisodes={getPodcastEpisodes}
+            playPodcastIndex={playPodcastIndex}
           />
-          <AudioPlayer episodes={episodes} />
+          <AudioPlayer {...{ episodes, index, isPlaying, togglePlayPause }} />
         </BrowserRouter>
       </div>
     </>

@@ -25,7 +25,6 @@ function PodcastSearch({ podcasts = [] }) {
   const [noPodcastsFound, setNoPodcastsFound] = useState(false);
 
   const showSelectedPodcast = (collectionId) => {
-    console.log("collectionId: ", collectionId);
     navigate(`podcast/${collectionId}`);
   };
 
@@ -44,7 +43,7 @@ function PodcastSearch({ podcasts = [] }) {
               <TableRow>
                 <TableCell sx={{ ...commonStyles }}>#</TableCell>
                 <TableCell sx={{ ...commonStyles }}>Name</TableCell>
-                <TableCell sx={{ ...commonStyles }}>Description</TableCell>
+                <TableCell sx={{ ...commonStyles }}># Episodes</TableCell>
                 <TableCell sx={{ ...commonStyles }}>Released</TableCell>
               </TableRow>
             </TableHead>
@@ -53,7 +52,10 @@ function PodcastSearch({ podcasts = [] }) {
                 <TableRow
                   key={podcast.trackId}
                   onClick={() => showSelectedPodcast(podcast.collectionId)}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    cursor: "pointer",
+                  }}
                 >
                   <TableCell component="th" scope="row">
                     <IconButton

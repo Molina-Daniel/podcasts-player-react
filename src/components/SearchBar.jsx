@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { IconButton, InputBase, Paper } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";

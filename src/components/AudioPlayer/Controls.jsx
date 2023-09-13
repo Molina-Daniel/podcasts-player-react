@@ -1,10 +1,9 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import React from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { Grid, ButtonGroup, Button } from "@mui/material";
 
 import PreviousTrack from "./ControlButtons/PreviousTrack.jsx";
 import Shuffle from "./ControlButtons/Shuffle.jsx";
-import Play from "./ControlButtons/Play.jsx";
-import Pause from "./ControlButtons/Pause.jsx";
 import NextTrack from "./ControlButtons/NextTrack.jsx";
 import Repeat from "./ControlButtons/Repeat.jsx";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";

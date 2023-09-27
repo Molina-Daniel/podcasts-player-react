@@ -12,6 +12,7 @@ const AudioPlayer = ({ episodes, index, isPlaying, togglePlayPause }) => {
   const [currentTrack, setCurrentTrack] = useState(episodes[trackIndex]);
   const [trackDuration, setTrackDuration] = useState(0);
   const [timeProgress, setTimeProgress] = useState(0);
+  const [autoPlay, setAutoPlay] = useState(false);
 
   const audioRef = useRef();
   const progressBarRef = useRef();
@@ -29,6 +30,9 @@ const AudioPlayer = ({ episodes, index, isPlaying, togglePlayPause }) => {
     const duration = audioRef.current.duration;
     setTrackDuration(duration);
     progressBarRef.current.max = duration;
+    if (isPlaying) {
+      setAutoPlay(true);
+    }
   };
 
   const handleNext = () => {
@@ -64,6 +68,7 @@ const AudioPlayer = ({ episodes, index, isPlaying, togglePlayPause }) => {
             }}
           >
             <audio
+              autoPlay={autoPlay}
               src={currentTrack.episodeUrl}
               ref={audioRef}
               onLoadedMetadata={onLoadedMetadata}

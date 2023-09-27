@@ -12,6 +12,7 @@ function App() {
   const [episodes, setEpisodes] = useState([]);
   const [index, setIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [newEpisodes, setNewEpisodes] = useState([]);
 
   const getPodcasts = async (term) => {
     const apiUrl = `https://itunes.apple.com/search?term=${term}&entity=podcast&limit=10`;
@@ -31,7 +32,9 @@ function App() {
         1,
         response.data.results.length
       );
-      setEpisodes(podcastEpisodes);
+      episodes.length > 0
+        ? setNewEpisodes(podcastEpisodes)
+        : setEpisodes(podcastEpisodes);
       return response.data;
     } catch (error) {
       console.log("Error fetching podcast episodes: ", error);
@@ -39,6 +42,9 @@ function App() {
   };
 
   const playPodcastIndex = (index) => {
+    if (newEpisodes.length > 0) {
+      setEpisodes(newEpisodes);
+    }
     setIndex(index);
     if (!isPlaying) {
       togglePlayPause();

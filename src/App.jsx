@@ -26,8 +26,13 @@ function App() {
 
   const getPodcastEpisodes = async (collectionId) => {
     const apiUrl = `https://itunes.apple.com/lookup?id=${collectionId}&media=podcast&entity=podcastEpisode&limit=10`;
+    const proxy = `https://proxy.cors.sh/`;
     try {
-      const response = await axios.get(apiUrl);
+      const response = await axios.get(proxy + apiUrl, {
+        headers: {
+          "x-cors-api-key": "temp_aceba4c3f059202e9c54df3355580672",
+        },
+      });
       const podcastEpisodes = response.data.results.slice(
         1,
         response.data.results.length

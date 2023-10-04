@@ -1,4 +1,3 @@
-import React from "react";
 import { useState } from "react";
 import { IconButton, InputBase, Paper } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -12,15 +11,17 @@ function SearchBar({ getPodcasts }) {
   const location = useLocation();
 
   const handleKeyPress = (event) => {
-    if (event.charCode === 13) {
+    if (event.key === "Enter" && searchText !== "") {
       event.preventDefault();
       doSearch();
     }
   };
 
   const doSearch = () => {
-    navigate(`/`);
-    getPodcasts(searchText);
+    if (searchText !== "") {
+      navigate(`podcasts-player-react/`);
+      getPodcasts(searchText);
+    }
   };
 
   const cleanTextField = () => {
@@ -30,7 +31,7 @@ function SearchBar({ getPodcasts }) {
   return (
     <>
       <div className="px-5 py-7 flex">
-        {location.pathname != "/" && (
+        {location.pathname != "/podcasts-player-react/" && (
           <IconButton
             type="button"
             sx={{
@@ -73,11 +74,12 @@ function SearchBar({ getPodcasts }) {
             onChange={(e) => {
               setSearchText(e.target.value);
             }}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
             sx={{ ml: 1, flex: 1, color: "secondary.main" }}
-            placeholder="Find a podcast"
+            placeholder="Find a podcast, eg: react"
             inputProps={{ "aria-label": "Find a podcast" }}
             autoFocus={true}
+            required={true}
           />
           {searchText && (
             <IconButton

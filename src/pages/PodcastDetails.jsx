@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -18,6 +17,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 import DateFormat from "../components/DateFormat";
 import DurationFormat from "../components/DurationFormat";
+import BlueCheck from "../assets/BlueCheck";
 
 const commonStyles = {
   color: "secondary.main",
@@ -52,13 +52,21 @@ function PodcastDetails({ getPodcastEpisodes, playPodcastIndex }) {
             className="w-2/6 mx-auto rounded-2xl h-auto"
             alt="podcast thumnail image"
           />
-          <Typography
-            component="h1"
-            variant="h4"
-            sx={{ color: "primary.main", fontWeight: "bold", my: "1rem" }}
-          >
-            {podcastInfo.collectionName}
-          </Typography>
+          <div className="inline-flex items-baseline">
+            <Typography
+              component="h1"
+              variant="h4"
+              sx={{
+                color: "primary.main",
+                fontWeight: "bold",
+                my: "1rem",
+                mr: "1rem",
+              }}
+            >
+              {podcastInfo.collectionName}
+            </Typography>
+            <BlueCheck />
+          </div>
           <TableContainer component={Paper} sx={{ boxShadow: 0 }}>
             <Table aria-label="podcasts list">
               <TableHead>
@@ -130,7 +138,13 @@ function PodcastDetails({ getPodcastEpisodes, playPodcastIndex }) {
           </TableContainer>
         </div>
       ) : (
-        <h1>No Data</h1>
+        <Typography
+          component="h1"
+          variant="h4"
+          sx={{ color: "primary.main", fontWeight: "bold", my: "1rem" }}
+        >
+          Sorry, no episodes found 🙁
+        </Typography>
       )}
     </>
   );

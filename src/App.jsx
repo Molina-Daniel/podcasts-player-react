@@ -1,7 +1,7 @@
-import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { BrowserRouter } from "react-router-dom";
+import { Typography } from "@mui/material";
 
 import MainSection from "./pages/MainSection";
 import SearchBar from "./components/SearchBar";
@@ -70,6 +70,34 @@ function App() {
             getPodcastEpisodes={getPodcastEpisodes}
             playPodcastIndex={playPodcastIndex}
           />
+          {podcasts.length <= 0 && (
+            <div>
+              <Typography
+                component="h1"
+                variant="h5"
+                sx={{
+                  color: "primary.main",
+                  fontWeight: "bold",
+                  m: "1rem",
+                }}
+              >
+                Search for a podcast ⬆️
+              </Typography>
+              <Typography
+                component="h1"
+                variant="h4"
+                sx={{
+                  color: "primary.main",
+                  fontWeight: "bold",
+                  m: "1rem",
+                  mt: "5rem",
+                }}
+              >
+                Discover and listen to your favorite podcasts, all in one place.
+              </Typography>
+            </div>
+          )}
+
           <AudioPlayer {...{ episodes, index, isPlaying, togglePlayPause }} />
         </BrowserRouter>
       </div>

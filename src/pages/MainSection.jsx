@@ -1,4 +1,3 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import PodcastDetails from "./PodcastDetails";
@@ -8,9 +7,12 @@ function MainSection({ getPodcastEpisodes, playPodcastIndex, podcasts = [] }) {
   return (
     <>
       <Routes>
-        <Route path="/" element={<PodcastSearch podcasts={podcasts} />}></Route>
         <Route
-          path="/podcast/:collectionId"
+          path="/podcasts-player-react/"
+          element={<PodcastSearch podcasts={podcasts} />}
+        ></Route>
+        <Route
+          path="/podcasts-player-react/podcast/:collectionId"
           element={
             <PodcastDetails
               getPodcastEpisodes={getPodcastEpisodes}

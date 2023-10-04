@@ -1,11 +1,10 @@
-import React from "react";
 import { useEffect, useRef, useCallback } from "react";
 import { Grid, ButtonGroup, Button } from "@mui/material";
 
-import PreviousTrack from "./ControlButtons/PreviousTrack.jsx";
-import Shuffle from "./ControlButtons/Shuffle.jsx";
-import NextTrack from "./ControlButtons/NextTrack.jsx";
-import Repeat from "./ControlButtons/Repeat.jsx";
+import PreviousTrack from "../../assets/ControlButtons/PreviousTrack.jsx";
+import Shuffle from "../../assets/ControlButtons/Shuffle.jsx";
+import NextTrack from "../../assets/ControlButtons/NextTrack.jsx";
+import Repeat from "../../assets/ControlButtons/Repeat.jsx";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 

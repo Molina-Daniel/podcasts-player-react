@@ -6,23 +6,15 @@ import { Typography } from "@mui/material";
 import MainSection from "./pages/MainSection";
 import SearchBar from "./components/SearchBar";
 import AudioPlayer from "./components/AudioPlayer/AudioPlayer";
+import { useStore } from "./store/store";
 
 function App() {
-  const [podcasts, setPodcasts] = useState([]);
   const [episodes, setEpisodes] = useState([]);
   const [index, setIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [newEpisodes, setNewEpisodes] = useState([]);
 
-  const getPodcasts = async (term) => {
-    const apiUrl = `https://itunes.apple.com/search?term=${term}&entity=podcast&limit=10`;
-    try {
-      const response = await axios.get(apiUrl);
-      setPodcasts(response.data);
-    } catch (error) {
-      console.log("Error fetching podcasts: ", error);
-    }
-  };
+  const podcasts = useStore((state) => state.podcasts);
 
   const getPodcastEpisodes = async (collectionId) => {
     const apiUrl = `https://itunes.apple.com/lookup?id=${collectionId}&media=podcast&entity=podcastEpisode&limit=10`;
@@ -64,9 +56,8 @@ function App() {
     <>
       <div className="w-10/12 max-w-4xl text-center m-auto relative">
         <BrowserRouter>
-          <SearchBar getPodcasts={getPodcasts} />
+          <SearchBar />
           <MainSection
-            podcasts={podcasts}
             getPodcastEpisodes={getPodcastEpisodes}
             playPodcastIndex={playPodcastIndex}
           />

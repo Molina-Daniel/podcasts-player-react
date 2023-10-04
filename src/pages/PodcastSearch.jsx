@@ -15,14 +15,17 @@ import {
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 import DateFormat from "../components/DateFormat";
+import { useStore } from "../store/store";
 
 const commonStyles = {
   color: "secondary.main",
 };
 
-function PodcastSearch({ podcasts = [] }) {
+function PodcastSearch() {
   const navigate = useNavigate();
   const [noPodcastsFound, setNoPodcastsFound] = useState(false);
+
+  const podcasts = useStore((state) => state.podcasts);
 
   const showSelectedPodcast = (collectionId) => {
     navigate(`podcast/${collectionId}`);

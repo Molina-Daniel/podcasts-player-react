@@ -11,13 +11,17 @@ import {
   IconButton,
   Grid,
   Typography,
+  Button,
+  ButtonGroup,
 } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 import DateFormat from "../components/DateFormat";
 import DurationFormat from "../components/DurationFormat";
 import BlueCheck from "../assets/BlueCheck";
+import { useStore } from "../store/store";
 
 const commonStyles = {
   color: "secondary.main",
@@ -26,6 +30,8 @@ const commonStyles = {
 function PodcastDetails({ getPodcastEpisodes, playPodcastIndex }) {
   const { collectionId } = useParams();
   const [podcastData, setPodcastData] = useState();
+  // const isPlaying = false;
+  const isPlaying = useStore((state) => state.isPlaying);
 
   useEffect(() => {
     const fetchPodcastData = async () => {
@@ -53,6 +59,16 @@ function PodcastDetails({ getPodcastEpisodes, playPodcastIndex }) {
             alt="podcast thumnail image"
           />
           <div className="inline-flex items-baseline">
+            {/* <ButtonGroup> */}
+            <Button
+              onClick={() => {}}
+              sx={{
+                bgcolor: "#5C67DE",
+              }}
+            >
+              {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+            </Button>
+            {/* </ButtonGroup> */}
             <Typography
               component="h1"
               variant="h4"

@@ -4,11 +4,14 @@ import { useNavigate, useLocation } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { useStore } from "../store/store";
 
-function SearchBar({ getPodcasts }) {
+function SearchBar() {
   const [searchText, setSearchText] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+
+  const getPodcasts = useStore((state) => state.getPodcasts);
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter" && searchText !== "") {

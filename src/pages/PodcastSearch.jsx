@@ -25,7 +25,7 @@ function PodcastSearch() {
   const navigate = useNavigate();
   const [noPodcastsFound, setNoPodcastsFound] = useState(false);
 
-  const podcasts = useStore((state) => state.podcasts);
+  const { podcasts } = useStore();
 
   const showSelectedPodcast = (collectionId) => {
     navigate(`podcast/${collectionId}`);

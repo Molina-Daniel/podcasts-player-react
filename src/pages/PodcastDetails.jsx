@@ -12,7 +12,6 @@ import {
   Grid,
   Typography,
   Button,
-  ButtonGroup,
 } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
@@ -27,11 +26,12 @@ const commonStyles = {
   color: "secondary.main",
 };
 
-function PodcastDetails({ getPodcastEpisodes, playPodcastIndex }) {
+function PodcastDetails() {
   const { collectionId } = useParams();
   const [podcastData, setPodcastData] = useState();
-  // const isPlaying = false;
-  const isPlaying = useStore((state) => state.isPlaying);
+
+  const { isPlaying, getPodcastEpisodes, playPodcastIndex, togglePlayPause } =
+    useStore();
 
   useEffect(() => {
     const fetchPodcastData = async () => {
@@ -58,17 +58,20 @@ function PodcastDetails({ getPodcastEpisodes, playPodcastIndex }) {
             className="w-2/6 mx-auto rounded-2xl h-auto"
             alt="podcast thumnail image"
           />
-          <div className="inline-flex items-baseline">
-            {/* <ButtonGroup> */}
+          <div className="inline-flex items-center">
             <Button
-              onClick={() => {}}
+              onClick={togglePlayPause}
               sx={{
                 bgcolor: "#5C67DE",
+                borderRadius: "50%",
+                height: 40,
+                minWidth: 40,
+                p: 0,
+                mr: "1rem",
               }}
             >
               {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
             </Button>
-            {/* </ButtonGroup> */}
             <Typography
               component="h1"
               variant="h4"
@@ -77,6 +80,7 @@ function PodcastDetails({ getPodcastEpisodes, playPodcastIndex }) {
                 fontWeight: "bold",
                 my: "1rem",
                 mr: "1rem",
+                maxWidth: "85%",
               }}
             >
               {podcastInfo.collectionName}

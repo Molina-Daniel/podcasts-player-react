@@ -11,7 +11,7 @@ function SearchBar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const getPodcasts = useStore((state) => state.getPodcasts);
+  const { getPodcasts } = useStore();
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter" && searchText !== "") {

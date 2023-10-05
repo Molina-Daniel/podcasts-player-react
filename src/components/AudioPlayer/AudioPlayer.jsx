@@ -5,16 +5,19 @@ import TrackInfo from "./TrackInfo.jsx";
 import Controls from "./Controls.jsx";
 import ProgressBar from "./ProgressBar.jsx";
 import VolumeBar from "./VolumeBar.jsx";
+import { useStore } from "../../store/store.jsx";
 
-const AudioPlayer = ({ episodes, index, isPlaying, togglePlayPause }) => {
+const AudioPlayer = () => {
   const [trackIndex, setTrackIndex] = useState(0);
-  const [currentTrack, setCurrentTrack] = useState(episodes[trackIndex]);
+  const [currentTrack, setCurrentTrack] = useState(null);
   const [trackDuration, setTrackDuration] = useState(0);
   const [timeProgress, setTimeProgress] = useState(0);
   const [autoPlay, setAutoPlay] = useState(false);
 
   const audioRef = useRef();
   const progressBarRef = useRef();
+
+  const { episodes, index, isPlaying } = useStore();
 
   useEffect(() => {
     setCurrentTrack(episodes[trackIndex]);
@@ -77,12 +80,10 @@ const AudioPlayer = ({ episodes, index, isPlaying, togglePlayPause }) => {
             <Controls
               {...{
                 audioRef,
-                isPlaying,
                 handleNext,
                 handlePrevious,
                 progressBarRef,
                 setTimeProgress,
-                togglePlayPause,
               }}
             />
             <ProgressBar

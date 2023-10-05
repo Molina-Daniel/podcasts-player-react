@@ -7,16 +7,17 @@ import NextTrack from "../../assets/ControlButtons/NextTrack.jsx";
 import Repeat from "../../assets/ControlButtons/Repeat.jsx";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
+import { useStore } from "../../store/store.jsx";
 
 const Controls = ({
   audioRef,
-  isPlaying,
   handleNext,
   handlePrevious,
   progressBarRef,
   setTimeProgress,
-  togglePlayPause,
 }) => {
+  const { isPlaying, togglePlayPause } = useStore();
+
   const playAnimationRef = useRef();
 
   const repeat = useCallback(() => {

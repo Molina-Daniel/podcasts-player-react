@@ -14,6 +14,7 @@ export const useStore = create(
       isPlayingCurrentPodcast: false,
       currentCollectionId: "",
       newCollectionId: "",
+      episodesFetchError: false,
       getPodcasts: async (term) => {
         const apiUrl = `https://itunes.apple.com/search?term=${term}&entity=podcast&limit=10`;
         try {
@@ -37,6 +38,7 @@ export const useStore = create(
             response.data.results.length
           );
           const { episodes, currentCollectionId } = get();
+          set((state) => ({ ...state, episodesFetchError: false }));
 
           if (episodes.length <= 0) {
             set((state) => ({
@@ -66,6 +68,7 @@ export const useStore = create(
 
           return response.data;
         } catch (error) {
+          set((state) => ({ ...state, episodesFetchError: true }));
           console.log("Error fetching podcast episodes: ", error);
         }
       },

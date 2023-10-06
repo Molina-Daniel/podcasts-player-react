@@ -37,6 +37,7 @@ function PodcastDetails() {
     playPodcastIndex,
     togglePlayPause,
     checkPodcastPlayButton,
+    episodesFetchError,
   } = useStore();
 
   useEffect(() => {
@@ -66,7 +67,7 @@ function PodcastDetails() {
 
   return (
     <>
-      {podcastData ? (
+      {podcastData && (
         <div>
           <img
             src={podcastInfo.artworkUrl600}
@@ -172,7 +173,8 @@ function PodcastDetails() {
             </Table>
           </TableContainer>
         </div>
-      ) : (
+      )}
+      {episodesFetchError && (
         <Typography
           component="h1"
           variant="h4"

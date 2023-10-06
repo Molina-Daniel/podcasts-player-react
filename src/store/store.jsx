@@ -99,7 +99,6 @@ export const useStore = create(
           ? set((state) => ({ ...state, isPlayingCurrentPodcast: false }))
           : set((state) => ({ ...state, isPlayingCurrentPodcast: isPlaying }));
       },
-      setNewPodcasts: () => set((state) => ({ ...state, isNewPodcast: true })),
     }),
     {
       name: "podcasts-storage",

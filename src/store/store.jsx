@@ -10,6 +10,10 @@ export const useStore = create(
       newEpisodes: [],
       index: 0,
       isPlaying: false,
+      isNewPodcast: true,
+      isPlayingCurrentPodcast: false,
+      currentCollectionId: "",
+      newCollectionId: "",
       getPodcasts: async (term) => {
         const apiUrl = `https://itunes.apple.com/search?term=${term}&entity=podcast&limit=10`;
         try {
@@ -32,33 +36,70 @@ export const useStore = create(
             1,
             response.data.results.length
           );
-          const { episodes } = get();
-          episodes.length > 0
-            ? set((state) => ({ ...state, newEpisodes: podcastEpisodes }))
-            : set((state) => ({ ...state, episodes: podcastEpisodes }));
+          const { episodes, currentCollectionId } = get();
+
+          if (episodes.length <= 0) {
+            set((state) => ({
+              ...state,
+              episodes: podcastEpisodes,
+              currentCollectionId: collectionId,
+              isNewPodcast: false,
+            }));
+          }
+
+          if (episodes.length > 0 && collectionId !== currentCollectionId) {
+            set((state) => ({
+              ...state,
+              newEpisodes: podcastEpisodes,
+              newCollectionId: collectionId,
+              isNewPodcast: true,
+            }));
+          }
+
+          if (episodes.length > 0 && collectionId === currentCollectionId) {
+            set((state) => ({
+              ...state,
+              isNewPodcast: false,
+              newEpisodes: [],
+            }));
+          }
+
           return response.data;
         } catch (error) {
           console.log("Error fetching podcast episodes: ", error);
         }
       },
       playPodcastIndex: (index) => {
-        const { newEpisodes, isPlaying, togglePlayPause } = get();
+        const { newEpisodes, isPlaying, togglePlayPause, newCollectionId } =
+          get();
 
         set((state) => ({ ...state, index }));
 
         if (newEpisodes.length > 0) {
           set((state) => ({ ...state, episodes: newEpisodes }));
+          set((state) => ({ ...state, newEpisodes: [] }));
+          set((state) => ({ ...state, isNewPodcast: false }));
+          set((state) => ({ ...state, currentCollectionId: newCollectionId }));
         }
 
         if (!isPlaying) {
           togglePlayPause();
         }
       },
-      togglePlayPause: () =>
-        set((state) => ({
-          ...state,
-          isPlaying: !state.isPlaying,
-        })),
+      togglePlayPause: () => {
+        const { checkPodcastPlayButton } = get();
+
+        set((state) => ({ ...state, isPlaying: !state.isPlaying }));
+        checkPodcastPlayButton();
+      },
+      checkPodcastPlayButton: () => {
+        const { isNewPodcast, isPlaying } = get();
+
+        isNewPodcast
+          ? set((state) => ({ ...state, isPlayingCurrentPodcast: false }))
+          : set((state) => ({ ...state, isPlayingCurrentPodcast: isPlaying }));
+      },
+      setNewPodcasts: () => set((state) => ({ ...state, isNewPodcast: true })),
     }),
     {
       name: "podcasts-storage",

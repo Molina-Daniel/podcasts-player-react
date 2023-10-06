@@ -79,7 +79,7 @@ function SearchBar() {
             }}
             onKeyDown={handleKeyPress}
             sx={{ ml: 1, flex: 1, color: "secondary.main" }}
-            placeholder="Find a podcast, eg: react"
+            placeholder="Find a podcast, eg: news"
             inputProps={{ "aria-label": "Find a podcast" }}
             autoFocus={true}
             required={true}

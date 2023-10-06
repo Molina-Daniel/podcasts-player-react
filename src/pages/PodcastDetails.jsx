@@ -30,17 +30,32 @@ function PodcastDetails() {
   const { collectionId } = useParams();
   const [podcastData, setPodcastData] = useState();
 
-  const { isPlaying, getPodcastEpisodes, playPodcastIndex, togglePlayPause } =
-    useStore();
+  const {
+    isPlayingCurrentPodcast,
+    isNewPodcast,
+    getPodcastEpisodes,
+    playPodcastIndex,
+    togglePlayPause,
+    checkPodcastPlayButton,
+  } = useStore();
 
   useEffect(() => {
     const fetchPodcastData = async () => {
-      getPodcastEpisodes(collectionId).then((data) =>
+      await getPodcastEpisodes(collectionId).then((data) =>
         setPodcastData(data.results)
       );
     };
+
     fetchPodcastData();
-  }, [collectionId]);
+  }, [collectionId, getPodcastEpisodes]);
+
+  useEffect(() => {
+    checkPodcastPlayButton();
+  }, [isNewPodcast, checkPodcastPlayButton]);
+
+  const handlePlayPodcast = () => {
+    !isNewPodcast ? togglePlayPause() : playPodcastIndex(0);
+  };
 
   let podcastInfo, episodesList;
 
@@ -60,7 +75,7 @@ function PodcastDetails() {
           />
           <div className="inline-flex items-center">
             <Button
-              onClick={togglePlayPause}
+              onClick={handlePlayPodcast}
               sx={{
                 bgcolor: "#5C67DE",
                 borderRadius: "50%",
@@ -70,7 +85,7 @@ function PodcastDetails() {
                 mr: "1rem",
               }}
             >
-              {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+              {isPlayingCurrentPodcast ? <PauseIcon /> : <PlayArrowIcon />}
             </Button>
             <Typography
               component="h1"
